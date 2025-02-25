@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useContext, useState } from "react";
 import { GameChoice, GameState } from "../types/game";
-import { DEFAULT_GAME_STATE } from "../constants";
+import { DEFAULT_GAME_STATE, DEFAULT_STATUS_MESSAGE } from "../constants";
 import GameSessionStorage from "../utils/GameSessionStorage";
 
 type UpdateGameState = (
@@ -67,7 +67,13 @@ function GameProvider(props: Props) {
   };
 
   const reset = () => {
-    
+    GameSessionStorage.removeState();
+    setGameState(DEFAULT_GAME_STATE);
+    setWinnerId(null);
+    setPlayerOneChoice(null);
+    setPlayerTwoChoice(null);
+    setLoading(false);
+    setStatusMessage(DEFAULT_STATUS_MESSAGE);
   };
 
   return (

@@ -7,7 +7,6 @@ export const GAME_RULES = {
   [GameChoice.LIZARD]: [GameChoice.PAPER, GameChoice.SPOCK],
   [GameChoice.SPOCK]: [GameChoice.SCISSORS, GameChoice.ROCK],
 };
-
 export const GAME_STORAGE_STATE_KEY = "game_state_storage_key";
 export const DEFAULT_GAME_STATE: GameState = {
   round: 1,
@@ -16,3 +15,4 @@ export const DEFAULT_GAME_STATE: GameState = {
   playerTwoUsername: "",
   playerTwoScore: 0,
 };
+export const DEFAULT_STATUS_MESSAGE = "Make a choice to play...";
