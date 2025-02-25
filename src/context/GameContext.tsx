@@ -1,6 +1,17 @@
-import { createContext, ReactNode, useContext, useEffect, useRef, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { GameChoice, GameState } from "../types/game";
-import { DEFAULT_GAME_STATE, DEFAULT_STATUS_MESSAGE, GAME_RULES } from "../constants";
+import {
+  DEFAULT_GAME_STATE,
+  DEFAULT_STATUS_MESSAGE,
+  GAME_RULES,
+} from "../constants";
 import GameSessionStorage from "../utils/GameSessionStorage";
 import { toSentenceCase } from "../utils/common";
 
@@ -138,6 +149,12 @@ function GameProvider(props: Props) {
     } catch (err) {
       console.log(`Could not get players storage, ${err}`);
     }
+
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
   }, []);
 
   return (
