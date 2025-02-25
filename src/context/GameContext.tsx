@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext, useState } from "react";
+import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import { GameChoice, GameState } from "../types/game";
 import { DEFAULT_GAME_STATE, DEFAULT_STATUS_MESSAGE } from "../constants";
 import GameSessionStorage from "../utils/GameSessionStorage";
@@ -75,6 +75,17 @@ function GameProvider(props: Props) {
     setLoading(false);
     setStatusMessage(DEFAULT_STATUS_MESSAGE);
   };
+
+  useEffect(() => {
+    try {
+      const savedGameState = GameSessionStorage.getState();
+      if (savedGameState) {
+        setGameState(savedGameState);
+      }
+    } catch (err) {
+      console.log(`Could not get players storage, ${err}`);
+    }
+  }, []);
 
   return (
     <GameContext.Provider
