@@ -1,7 +1,7 @@
 import classes from "./GameIntro.module.css";
 
 interface Props {
-  onequestStart?: () => void;
+  onRequestStart?: () => void;
 }
 
 function GameIntro(props: Props) {
