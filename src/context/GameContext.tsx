@@ -1,6 +1,7 @@
 import { createContext, ReactNode, useContext, useState } from "react";
 import { GameChoice, GameState } from "../types/game";
 import { DEFAULT_GAME_STATE } from "../constants";
+import GameSessionStorage from "../utils/GameSessionStorage";
 
 type UpdateGameState = (
   updatedState:
@@ -50,7 +51,15 @@ function GameProvider(props: Props) {
   const [loading, setLoading] = useState(false);
 
   const updateGameState: UpdateGameState = (updatedState) => {
-    
+    setGameState((oldValue) => {
+      const update =
+        typeof updatedState === "function"
+          ? updatedState(oldValue)
+          : updatedState;
+      const newValue: GameState = { ...oldValue, ...update };
+      GameSessionStorage.setState(newValue);
+      return newValue;
+    });
   };
 
   const play = (p1Choice: GameChoice, p2Choice: GameChoice) => {
