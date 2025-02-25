@@ -1,17 +1,11 @@
-import automataLogo from '../assets/automata.png'
+import { GameProvider } from '../context/GameContext'
 import './App.css'
 
 function App() {
   return (
-    <>
-      <div>
-        <a href="https://automata.tech/" target="_blank">
-          <img src={String(automataLogo)} className="logo automata" alt="Automata logo"/>
-        </a>
-      </div>
-      <h1>Frontend Exercise</h1>
+    <GameProvider>
       <h2>Rock, Paper, Scissors, Lizard, Spock</h2>
-    </>
+    </GameProvider>
   )
 }
 
