@@ -1,3 +1,10 @@
 .root {
-  
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.root .resetButton {
+  width: 100%;
+  background-color: red;
 }
