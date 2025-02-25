@@ -1,7 +1,8 @@
-import { createContext, ReactNode, useContext, useEffect, useState } from "react";
+import { createContext, ReactNode, useContext, useEffect, useRef, useState } from "react";
 import { GameChoice, GameState } from "../types/game";
 import { DEFAULT_GAME_STATE, DEFAULT_STATUS_MESSAGE, GAME_RULES } from "../constants";
 import GameSessionStorage from "../utils/GameSessionStorage";
+import { toSentenceCase } from "../utils/common";
 
 type UpdateGameState = (
   updatedState:
@@ -49,6 +50,7 @@ function GameProvider(props: Props) {
   );
   const [statusMessage, setStatusMessage] = useState(DEFAULT_STATUS_MESSAGE);
   const [loading, setLoading] = useState(false);
+  const intervalRef = useRef<number>();
 
   const updateGameState: UpdateGameState = (updatedState) => {
     setGameState((oldValue) => {
@@ -95,7 +97,26 @@ function GameProvider(props: Props) {
   };
 
   const play = (p1Choice: GameChoice, p2Choice: GameChoice) => {
-    
+    let intervals = 0;
+    setLoading(true);
+    setStatusMessage("Counting...");
+    setPlayerOneChoice(null);
+    setPlayerTwoChoice(null);
+    setWinnerId(null);
+
+    intervalRef.current = window.setInterval(() => {
+      if (intervals < 5) {
+        intervals++;
+        const text = Object.values(GameChoice)[intervals - 1];
+        setStatusMessage(`${toSentenceCase(text)}...`);
+      } else {
+        if (intervalRef.current) {
+          window.clearInterval(intervalRef.current);
+        }
+        determineWinner(p1Choice, p2Choice);
+        setLoading(false);
+      }
+    }, 500);
   };
 
   const reset = () => {
