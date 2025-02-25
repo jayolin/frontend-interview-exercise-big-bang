@@ -1,0 +1,31 @@
+.root {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 20px;
+}
+
+.root .selectionCard {
+  width: 150px;
+  aspect-ratio: 1/1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+}
+
+.root .playerName {
+  margin: 10px 0;
+}
+
+.selectionCard.noSelection {
+  background-color: gray;
+}
+
+.selectionCard.draw, .selectionCard.winner {
+  background-color: #90EE90;
+}
+
+.selectionCard.loser {
+  background-color: #FF8080;
+}
