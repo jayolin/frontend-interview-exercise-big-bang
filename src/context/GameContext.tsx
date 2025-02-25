@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import { GameChoice, GameState } from "../types/game";
-import { DEFAULT_GAME_STATE, DEFAULT_STATUS_MESSAGE } from "../constants";
+import { DEFAULT_GAME_STATE, DEFAULT_STATUS_MESSAGE, GAME_RULES } from "../constants";
 import GameSessionStorage from "../utils/GameSessionStorage";
 
 type UpdateGameState = (
@@ -60,6 +60,38 @@ function GameProvider(props: Props) {
       GameSessionStorage.setState(newValue);
       return newValue;
     });
+  };
+
+  const determineWinner = (p1Choice: GameChoice, p2Choice: GameChoice) => {
+    setPlayerOneChoice(p1Choice);
+    setPlayerTwoChoice(p2Choice);
+
+    if (p1Choice === p2Choice) {
+      setWinnerId(-1);
+      updateGameState((gs) => ({
+        round: gs.round + 1,
+        playerOneScore: gs.playerOneScore + 1,
+        playerTwoScore: gs.playerTwoScore + 1,
+      }));
+      setStatusMessage("It's a tie!");
+      return;
+    }
+
+    if (GAME_RULES[p1Choice].includes(p2Choice)) {
+      setWinnerId(1);
+      updateGameState((gs) => ({
+        round: gs.round + 1,
+        playerOneScore: gs.playerOneScore + 1,
+      }));
+      setStatusMessage(`${gameState.playerOneUsername} wins!`);
+    } else {
+      setWinnerId(2);
+      updateGameState((gs) => ({
+        round: gs.round + 1,
+        playerTwoScore: gs.playerTwoScore + 1,
+      }));
+      setStatusMessage(`${gameState.playerTwoUsername} wins!`);
+    }
   };
 
   const play = (p1Choice: GameChoice, p2Choice: GameChoice) => {
